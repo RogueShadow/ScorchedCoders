@@ -5,6 +5,7 @@ import java.awt.Color
 import java.awt.event.KeyEvent
 import java.awt.event.MouseEvent
 import java.awt.geom.Ellipse2D
+import java.io.File
 import java.awt.geom.Point2D.Float as Float2
 import kotlin.concurrent.thread
 import kotlin.math.*
@@ -52,6 +53,7 @@ object Level: Entity() {
 
             waitingForLaunch.forEach {
                 add(it)
+                ScorchedCoders.launchSnd.play()
                 state = MissileFlight
             }
             waitingForLaunch.clear()
@@ -160,7 +162,6 @@ object Level: Entity() {
         nextTurn()
     }
     fun clearPlayers(){
-        TAKEN.clear()
         children.removeAll{it is Player}
     }
     fun addPlayer(name: String = ""): Entity {

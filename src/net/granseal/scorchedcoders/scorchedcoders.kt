@@ -2,16 +2,9 @@ package net.granseal.scorchedcoders
 
 import net.granseal.koLambda.*
 import java.awt.Color
-import java.awt.Graphics2D
-import java.awt.Image
-import java.awt.Shape
 import java.awt.event.MouseEvent
-import java.awt.geom.GeneralPath
-import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
-import java.awt.geom.Point2D.Float as Float2
+import java.io.File
 import kotlin.concurrent.thread
-import kotlin.random.Random
 
 const val PixelScale = 1
 const val WIDTH = 1024 / PixelScale
@@ -20,23 +13,27 @@ const val WorldWidth = WIDTH * 2
 const val WorldHeight = HEIGHT
 const val PLAYERS = 5
 
-val TAKEN = mutableListOf<String>()
-val NAMES = listOf(
-    "RogueShadow","Danicron","javidx9","UglySwedishFish","Tutas","Ben",
-    "Noodles","Nimmy","MaGetzUb","AniCator","Eremiell","Dustyshouri",
-    "Jonus","whizard_dragon","Inverness","Diego"
-)
-
 val SKY = Color.blue.brighter().brighter().brighter().rgb
 val GROUND = Color.green.darker().darker().darker().rgb
 
-fun main(args: Array<String>){
-    args.forEach { println(it) }
-    ScorchedCoders.playerList = args.toList()
+fun main(){
+    val playerFile = File("players.txt")
+    if (playerFile.exists()){
+        ScorchedCoders.playerList = playerFile.readLines().filter { it.isNotBlank() }.map{it.trim()}
+    }else{
+        ScorchedCoders.playerList = listOf(
+            "RogueShadow","Danicron","javidx9","UglySwedishFish","Tutas","Ben",
+            "Noodles","Nimmy","MaGetzUb","AniCator","Eremiell","Dustyshouri",
+            "Jonus","whizard_dragon","Inverness","Diego"
+        )
+    }
+
     ScorchedCoders.start()
 }
 
 object ScorchedCoders: ApplicationAdapter("Scorched Coders", WIDTH * PixelScale, HEIGHT * PixelScale){
+    val launchSnd = Sound(this.javaClass.getResourceAsStream("res/sc_launch.wav").buffered())
+    val explodeSnd = Sound(this.javaClass.getResourceAsStream("res/sc_explode1.wav").buffered())
 
     var playerList = listOf<String>()
 

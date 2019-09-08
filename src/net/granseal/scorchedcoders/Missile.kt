@@ -92,6 +92,7 @@ class Missile(start: Float2, var velocity: Float2, val type: Int = 0): Entity(po
                 .shape{ Ellipse2D.Float(-1f,-1f,2f,2f) }
                 .noGravity()
         )
+        ScorchedCoders.explodeSnd.play()
         Level.explosion(pos, 64, 50f)
         Level.nextTurn()
         Level.state = Level.TakingTurn

@@ -10,10 +10,9 @@ import java.util.*
 import kotlin.math.*
 import kotlin.random.Random
 
-class Player(startX: Float, sName: String = ""): Entity() {
+class Player(startX: Float, var name: String = ""): Entity() {
     val color = hsb(Random.nextFloat(),1f,0.65f)
     var velocity = point()
-    val name = if (sName == "") NAMES.filter{ it !in TAKEN}.random() else sName
     var selected = false
     val maxHealth = 100
     var health = maxHealth
@@ -21,7 +20,6 @@ class Player(startX: Float, sName: String = ""): Entity() {
     val id = Level.getAll().filterIsInstance<Player>().size + 1
 
     init {
-        TAKEN.add(name)
         bounds = rect(-16f,-16f,32f,32f)
         pos.x = startX
 
