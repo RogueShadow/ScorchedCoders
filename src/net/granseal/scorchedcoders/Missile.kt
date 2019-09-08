@@ -46,7 +46,7 @@ class Missile(start: Float2, var velocity: Float2, val type: Int = 0): Entity(po
                     Level.cameraTarget = point(pos.x , pos.y )
                 }
 
-                velocity *= 0.99f
+                //velocity *= 0.99f
 
                 if (smokeCounter > smokeFrequency){
                     ParticleManager.emit(
